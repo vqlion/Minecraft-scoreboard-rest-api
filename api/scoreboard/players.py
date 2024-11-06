@@ -14,11 +14,11 @@ def init(app):
         nbt_json = get_nbt_json(SCOREBOARD_PATH)
         players_list = get_players_list(nbt_json)
 
-        return jsonify({"data": players_list, "status": 200}), 200
+        return jsonify(players_list), 200
 
     @app.route('/scoreboard/players/scores/<player>', methods=['GET'])
     def get_scores(player):
         nbt_json = get_nbt_json(SCOREBOARD_PATH)
         player_scores = get_player_scores(nbt_json, player)
 
-        return jsonify({"data": player_scores, "status": 200}), 200
+        return jsonify(player_scores), 200

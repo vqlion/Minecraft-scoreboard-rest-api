@@ -14,7 +14,7 @@ def init(app):
         nbt_json = get_nbt_json(SCOREBOARD_PATH)
         objectives = nbt_json["data"]["Objectives"]
         
-        return jsonify({"data": objectives, "status": 200}), 200
+        return jsonify(objectives), 200
     
     @app.route('/scoreboard/objectives/<objective>', methods=['GET'])
     def objective_info(objective):
@@ -23,7 +23,7 @@ def init(app):
 
         if not objective_info:
             return jsonify({"message": "Objective does not exist", "status": 400}), 400
-        return jsonify({"data": objective_info, "status": 200}), 200
+        return jsonify(objective_info), 200
 
     @app.route('/scoreboard/objectives/rank/<objective>', methods=['GET'])
     def objective_rank(objective):
@@ -32,4 +32,4 @@ def init(app):
 
         if not ranking:
             return jsonify({"message": "Objective does not exist or no player is ranked", "status": 400}), 400
-        return jsonify({"data": ranking, "status": 200}), 200
+        return jsonify(ranking), 200

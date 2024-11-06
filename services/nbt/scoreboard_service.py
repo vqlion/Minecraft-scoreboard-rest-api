@@ -9,6 +9,7 @@ def get_objective_details(scoreboard_json, objective):
 
 def get_objective_leaderboard(scoreboard_json, objective):
     players_list = get_players_list(scoreboard_json)
+    players_list = [player['Name'] for player in players_list]
 
     player_scores = scoreboard_json["data"]["PlayerScores"]
     player_scores = [s for s in player_scores if s["Objective"] == objective and s["Name"] in players_list]
@@ -22,14 +23,15 @@ def get_objective_leaderboard(scoreboard_json, objective):
 
 def get_players_list(scoreboard_json):
     players_list = []
-        
+    tmp_list = []
     player_scores = scoreboard_json["data"]["PlayerScores"]
     for score in player_scores:
-        if score['Name'] in players_list:
+        if score['Name'] in tmp_list:
             continue
-        players_list.append(score['Name'])
+        players_list.append({ 'Name': score['Name'] })
+        tmp_list.append(score['Name'])
     
-    players_list = filter(lambda player: not '#' in player, players_list) # remove fake players
+    players_list = filter(lambda player: not '#' in player['Name'], players_list) # remove fake players
 
     return list(players_list)
 
