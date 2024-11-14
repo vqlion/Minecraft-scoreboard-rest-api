@@ -13,6 +13,8 @@ def init(app):
     def objectives():
         nbt_json = get_nbt_json(SCOREBOARD_PATH)
         objectives = nbt_json["data"]["Objectives"]
+
+        objectives = [o for o in objectives if o["CriteriaName"] != "dummy"]
         
         return jsonify(objectives), 200
     
@@ -22,7 +24,7 @@ def init(app):
         objective_info = get_objective_details(nbt_json, objective)
 
         if not objective_info:
-            return jsonify({"message": "Objective does not exist", "status": 400}), 400
+            return jsonify("Objective does not exist"), 400
         return jsonify(objective_info), 200
 
     @app.route('/scoreboard/objectives/rank/<objective>', methods=['GET'])
@@ -31,5 +33,5 @@ def init(app):
         ranking = get_objective_leaderboard(nbt_json, objective)
 
         if not ranking:
-            return jsonify({"message": "Objective does not exist or no player is ranked", "status": 400}), 400
+            return jsonify("Objective does not exist or no player is ranked"), 400
         return jsonify(ranking), 200
